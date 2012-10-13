@@ -13,24 +13,28 @@
 
 @implementation UIImage (Additions_568)
 
+static BOOL mayUseTallerImages;
+
++ (void)load
+{
+    mayUseTallerImages = CGSizeEqualToSize(CGSizeMake(320, 568), [UIScreen mainScreen].bounds.size);
+}
+
 + (UIImage *)imageNamed_patched:(NSString *)name {
     
-    if ([name length] > 0 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (mayUseTallerImages && [name length] > 0  && [name rangeOfString:kTallSuffix].location == NSNotFound)
     {
-        if ([name rangeOfString:kTallSuffix].location == NSNotFound && ([UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale) >= 1136.0f)
-        {
-            //Check if is there a path extension or not
-            NSString *testName = name;
-            if (testName.pathExtension.length > 0) {
-                testName = [[[testName stringByDeletingPathExtension] stringByAppendingString:kTallSuffix] stringByAppendingPathExtension:[name pathExtension]];
-            } else {
-                testName = [testName stringByAppendingString:kTallSuffix @".png"];
-            }
-            
-            UIImage *image = [UIImage imageNamed_patched:testName];
-            if (image) {
-                return [self imageWithCGImage:image.CGImage scale:2.0f orientation:image.imageOrientation];
-            }
+        //Check if is there a path extension or not
+        NSString *testName = name;
+        if (testName.pathExtension.length > 0) {
+            testName = [[[testName stringByDeletingPathExtension] stringByAppendingString:kTallSuffix] stringByAppendingPathExtension:[name pathExtension]];
+        } else {
+            testName = [testName stringByAppendingString:kTallSuffix @".png"];
+        }
+        
+        UIImage *image = [UIImage imageNamed_patched:testName];
+        if (image) {
+            return [self imageWithCGImage:image.CGImage scale:2.0f orientation:image.imageOrientation];
         }
     }
     
