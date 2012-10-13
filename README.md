@@ -1,7 +1,8 @@
 #Install
-1) Add UIImage+Additions_568.h and UIImage+Additions_568.m to your project
-2) Make call *[UIImage patchImageNamedToSupport568Resources]* somevere in your main.h or delegate.
-####main.h
+* Add UIImage+Additions_568.h and UIImage+Additions_568.m to your project 
+* Make call *[UIImage patchImageNamedToSupport568Resources]* somewhere in your main.h or AppDelegate.
+
+####example of main.h
 
 	#import <UIKit/UIKit.h>
 	#import "AppDelegate.h"
@@ -18,6 +19,6 @@
 	
 
 #Usage
-Use your pathced *imageNamed* used in the same way as before
-####exapmle
+Use your patched *imageNamed* in the same way as before
+####example of usage
 	NSLog(@"%f",[UIImage imageNamed:@"Default"].size.height); // make sure you have loaded taller version of image in iphone 5 simulator :)
